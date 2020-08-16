@@ -5,7 +5,7 @@ const {firebaseConfig} = require('../utils/config');
 const firebase = require('firebase');
 firebase.initializeApp(firebaseConfig);
 
-const {validateSignUpData,validateLoginData} = require('../utils/validators');
+const {validateSignUpData, validateLoginData, reduceUserDetails} = require('../utils/validators');
 
 exports.signUp = (req,res)=>{
     const newUser = {
@@ -77,6 +77,19 @@ exports.login = (req,res)=>{
         console.log(err);
         if(err.code==='auth/wrong-password') res.status(403).json({general: 'Wrong credentials, please try again.'})
         else res.status(500).json({error: err.code});
+    });
+}
+
+exports.addUserDetails = (req,res)=>{
+    let userDetails = reduceUserDetails(req.body);
+
+    db.doc(`/users/${req.user.handle}`).update(userDetails)
+    .then(()=>{
+        return res.json({message: 'Details added successfully'});
+    })
+    .catch(err=>{
+        console.log(err);
+        res.status(500).json({error: err.code});
     });
 }
 
