@@ -32,7 +32,7 @@ app.get('/screams',(req,res)=>{
                     screamId: doc.id,
                     body: doc.data().body,
                     userHandle: doc.data().userHandle,
-                    // createdAt: doc.data().createdAt,
+                    createdAt: doc.data().createdAt,
                     // commentCount: doc.data().commentCount,
                     // likeCount: doc.data().likeCount()
                 })
@@ -56,8 +56,8 @@ app.post('/addScream',(req,res)=>{
         return res.json({message:`document ${doc.id} created successfully.`})
     })
     .catch(err=>{
-        res.status(500).json({error:`Something went wrong.`});
         console.log(err);
+        return res.status(500).json({error:`Something went wrong.`});
     });
 });
 
@@ -75,7 +75,7 @@ app.post('/signup',(req,res)=>{
         if(doc.exists){
             return res.status(400).json({handle: "This handle is already taken"})
         }else{
-            firebase.auth().createUserWithEmailAndPassword(newUser.email,newUser.password);
+            return firebase.auth().createUserWithEmailAndPassword(newUser.email,newUser.password);
         }
     })
     .then(data=>{
@@ -90,4 +90,4 @@ app.post('/signup',(req,res)=>{
     });
 });
 
-exports.api = functions.regios('europe-west1').https.onRequest(app);
+exports.api = functions.region('europe-west1').https.onRequest(app);
