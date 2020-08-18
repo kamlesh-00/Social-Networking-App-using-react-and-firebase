@@ -75,11 +75,11 @@ exports.commentOnScream = (req,res)=>{
     };
     db.doc(`/screams/${req.params.screamId}`).get()
         .then(doc=>{
-            if(!doc.exists) res.status(404).json({Error: 'Scream not found'});
-            db.collection('comments').add(newComment);
+            if(!doc.exists) return res.status(404).json({Error: 'Scream not found'});
+            return db.collection('comments').add(newComment);
         })
         .then(()=>{
-            res.json(newComment)
+            return res.json(newComment)
         })
         .catch(err=>{
             console.log(err);

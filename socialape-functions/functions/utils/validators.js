@@ -42,7 +42,7 @@ exports.reduceUserDetails = (body)=>{
 
     if(!isEmpty(body.bio.trim())) userDetails.bio = body.bio;
     if(!isEmpty(body.website.trim())){
-        if(body.website.trim().substring(0,4)!='http'){
+        if(body.website.trim().substring(0,4)!=='http'){
             userDetails.website = `http://${body.website.trim()}`;
         }else userDetails.website = body.website;
     }

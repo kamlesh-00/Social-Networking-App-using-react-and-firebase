@@ -100,6 +100,8 @@ exports.getAuthenticatedUser = (req,res)=>{
             if(doc.exists){
                 userData.credentials = doc.data();
                 return db.collection('likes').where('userHandle','==',req.user.handle).get()
+            }else{
+                return null
             }
         })
         .then(data=>{
