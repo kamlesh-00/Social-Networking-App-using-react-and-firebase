@@ -4,6 +4,7 @@ const app = require('express')();
 const {getAllScreams, postOneScream, getScream, commentOnScream, likeScream, unlikeScream, deleteScream} = require('./handlers/screams');
 const {signUp, login, uploadImage, addUserDetails, getAuthenticatedUser} = require('./handlers/users');
 const {fbAuth} = require('./utils/fbAuth');
+const { db } = require('./utils/admin');
 
 // Scream routes
 app.get('/screams',getAllScreams);
@@ -22,4 +23,61 @@ app.post('/user/image',fbAuth,uploadImage);
 app.post('/user',fbAuth,addUserDetails);
 app.get('/user',fbAuth,getAuthenticatedUser)
 
-exports.api = functions.region('europe-west1').https.onRequest(app);
+exports.api = functions.https.onRequest(app);
+
+exports.createNotificationOnLike = functions.firestore.document('likes/{id}')
+    .onCreate((snapshot)=>{
+        return db.doc(`/screams/${snapshot.data().screamId}`).get()
+            .then(doc=>{
+                return db.doc(`/notification/${snapshot.id}`).set({
+                    createdAt: new Date().toISOString(),
+                    recipient: doc.data().userHandle,
+                    sender: snapshot.data().userHandle,
+                    type: 'like',
+                    read: false,
+                    screamId: snapshot.data().screamId
+                })
+            })
+            .then(()=>{
+                return;
+            })
+            .catch(err=>{
+                console.log(err);
+                return;
+            })
+    });
+
+exports.deleteNotificationOnUnlike = functions.firestore.document('likes/{id}')
+    .onDelete((snapshot)=>{
+        return db.doc(`/notification/${snapshot.id}`)
+            .delete()
+            .then(()=>{
+                return;
+            })
+            .catch(err=>{
+                console.log(err);
+                return;
+            })
+    })
+
+exports.createNotificationOnComment = functions.firestore.document(`comments/{id}`)
+    .onCreate((snapshot)=>{
+        db.doc(`/screams/${snapshot.data().screamId}`).get()
+            .then(doc=>{
+                return db.doc(`/notification/${snapshot.id}`).set({
+                    createdAt: new Date().toISOString(),
+                    recipient: doc.data().userHandle,
+                    sender: snapshot.data().userHandle,
+                    type: 'comment',
+                    read: false,
+                    screamId: snapshot.data().screamId
+                })
+            })
+            .then(()=>{
+                return;
+            })
+            .catch(err=>{
+                console.log(err);
+                return;
+            })
+    })
