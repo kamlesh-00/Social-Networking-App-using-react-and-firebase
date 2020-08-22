@@ -1,52 +1,52 @@
-const isEmpty = (string)=>{
-    if (string==='') return true;
+const isEmpty = (string) => {
+    if (string === '') return true;
     else return false;
 }
-const isEmail = (string)=>{
+const isEmail = (string) => {
     const re = /^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
     return re.test(String(string).toLowerCase());
 }
 
-exports.validateSignUpData = (newUser)=>{
+exports.validateSignUpData = (newUser) => {
     let errors = {};
-    if(isEmpty(newUser.email)) errors.email = 'Email must not be empty';
-    else if(!isEmail(newUser.email)) errors.email = 'Must be a valid email address';
-    
-    if(isEmpty(newUser.password)) errors.password = 'Password must not be empty';
+    if (isEmpty(newUser.email)) errors.email = 'Email must not be empty';
+    else if (!isEmail(newUser.email)) errors.email = 'Must be a valid email address';
 
-    if(newUser.password !== newUser.confirmPassword) errors.confirmPassword = 'Passwords must match';
-    
-    if(isEmpty(newUser.handle)) errors.handle = 'Handle must not be empty';
-    
-    return{
+    if (isEmpty(newUser.password)) errors.password = 'Password must not be empty';
+
+    if (newUser.password !== newUser.confirmPassword) errors.confirmPassword = 'Passwords must match';
+
+    if (isEmpty(newUser.handle)) errors.handle = 'Handle must not be empty';
+
+    return {
         errors,
-        valid: Object.keys(errors).length===0?true:false
+        valid: Object.keys(errors).length === 0 ? true : false
     }
 }
 
-exports.validateLoginData = (user)=>{
+exports.validateLoginData = (user) => {
     let errors = {};
-    if(isEmpty(user.email)) errors.email = 'Email must not be empty';
-    else if(!isEmail(user.email)) errors.email = 'Must be a valid email address';
-    
-    if(isEmpty(user.password)) errors.password = 'Password must not be empty';
+    if (isEmpty(user.email)) errors.email = 'Email must not be empty';
+    else if (!isEmail(user.email)) errors.email = 'Must be a valid email address';
 
-    return{
+    if (isEmpty(user.password)) errors.password = 'Password must not be empty';
+
+    return {
         errors,
-        valid: Object.keys(errors).length===0?true:false
+        valid: Object.keys(errors).length === 0 ? true : false
     }
 }
 
-exports.reduceUserDetails = (body)=>{
+exports.reduceUserDetails = (body) => {
     let userDetails = {};
 
-    if(!isEmpty(body.bio.trim())) userDetails.bio = body.bio;
-    if(!isEmpty(body.website.trim())){
-        if(body.website.trim().substring(0,4)!=='http'){
+    if (!isEmpty(body.bio.trim())) userDetails.bio = body.bio;
+    if (!isEmpty(body.website.trim())) {
+        if (body.website.trim().substring(0, 4) !== 'http') {
             userDetails.website = `http://${body.website.trim()}`;
-        }else userDetails.website = body.website;
+        } else userDetails.website = body.website;
     }
-    if(!isEmpty(body.location.trim())) userDetails.location = body.location;
+    if (!isEmpty(body.location.trim())) userDetails.location = body.location;
 
     return userDetails;
 }
