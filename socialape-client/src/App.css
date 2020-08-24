@@ -1,8 +1,8 @@
 html,
 body {
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen,
-    Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue',
-    sans-serif;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
+    Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
+  background-color: rgb(245, 245, 245);
 }
 
 .container {
@@ -12,4 +12,8 @@ body {
 
 .nav-container {
   margin: auto;
+}
+
+a{
+  text-decoration: none;
 }
