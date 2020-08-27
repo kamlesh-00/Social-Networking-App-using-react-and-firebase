@@ -3,9 +3,16 @@ import { withStyles } from "@material-ui/core/styles";
 import PropTypes from "prop-types";
 import AppIcon from "../images/icon.png";
 import axios from "axios";
+import { Link } from "react-router-dom";
 
 // MUI Stuff
-import { Grid, Typography, TextField, Button } from "@material-ui/core";
+import {
+  Grid,
+  Typography,
+  TextField,
+  Button,
+  CircularProgress,
+} from "@material-ui/core";
 
 const styles = {
   form: {
@@ -22,11 +29,15 @@ const styles = {
   },
   button: {
     marginTop: 20,
+    position: "relative",
   },
   customError: {
     color: "red",
     fontSize: "0.8rem",
     marginTop: 5,
+  },
+  progress: {
+    position: "absolute",
   },
 };
 
@@ -121,9 +132,19 @@ class Login extends Component {
               type="submit"
               variant="contained"
               color="primary"
+              disabled={this.state.loading}
               className={classes.button}>
               Login
+              {this.state.loading && (
+                <CircularProgress className={classes.progress} size={20} />
+              )}
             </Button>
+            <br />
+            <br />
+            <small>
+              Dont't have an account? Sign Up{" "}
+              <Link target="/signup">here.</Link>
+            </small>
           </form>
         </Grid>
         <Grid item sm />
