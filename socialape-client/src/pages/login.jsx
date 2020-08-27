@@ -14,32 +14,9 @@ import {
   CircularProgress,
 } from "@material-ui/core";
 
-const styles = {
-  form: {
-    textAlign: "center",
-  },
-  pageTitle: {
-    margin: "20px auto 20px auto",
-  },
-  image: {
-    margin: "10px auto 10px auto",
-  },
-  textField: {
-    margin: "10px auto 10px auto",
-  },
-  button: {
-    marginTop: 20,
-    position: "relative",
-  },
-  customError: {
-    color: "red",
-    fontSize: "0.8rem",
-    marginTop: 5,
-  },
-  progress: {
-    position: "absolute",
-  },
-};
+const styles = (theme) => ({
+  ...theme.spreadThis,
+});
 
 class Login extends Component {
   constructor(props) {
@@ -67,6 +44,7 @@ class Login extends Component {
       .post("/login", userData)
       .then((res) => {
         console.log(res.data);
+        localStorage.setItem("FBIDToken", `Bearer ${res.data.token}`);
         this.setState({
           loading: false,
         });
@@ -132,18 +110,17 @@ class Login extends Component {
               type="submit"
               variant="contained"
               color="primary"
-              disabled={this.state.loading}
+              disabled={loading}
               className={classes.button}>
               Login
-              {this.state.loading && (
+              {loading && (
                 <CircularProgress className={classes.progress} size={20} />
               )}
             </Button>
             <br />
             <br />
             <small>
-              Dont't have an account? Sign Up{" "}
-              <Link target="/signup">here.</Link>
+              Dont't have an account? Sign Up <Link to={"/signup"}>here.</Link>
             </small>
           </form>
         </Grid>
