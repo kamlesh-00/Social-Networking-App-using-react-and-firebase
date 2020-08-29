@@ -9,10 +9,13 @@ import "./App.css";
 import { ThemeProvider as MuiThemeProvider } from "@material-ui/core/styles";
 import createTheme from "@material-ui/core/styles/createMuiTheme";
 import jwtDecode from "jwt-decode";
+import axios from "axios";
 
 //Redux
 import { Provider } from "react-redux";
 import store from "./redux/stores";
+import { SET_AUTHENTICATED } from "./redux/types";
+import { getUserData, logoutUser } from "./redux/actions/userActions";
 
 //Pages
 import Home from "./pages/home";
@@ -27,18 +30,17 @@ import AuthRoute from "./util/authRoute";
 
 const theme = createTheme(themeFile);
 
-let authenticated = false;
 const token = localStorage.getItem("FBIDToken");
 if (token !== null) {
   const decodedToken = jwtDecode(token);
   console.log(decodedToken);
   if (decodedToken.exp * 1000 < Date.now()) {
-    authenticated = false;
-    console.log(authenticated);
+    store.dispatch(logoutUser());
     window.location.href = "/login";
   } else {
-    authenticated = true;
-    console.log(authenticated);
+    store.dispatch({ type: SET_AUTHENTICATED });
+    axios.defaults.headers.common["Authorization"] = token;
+    store.dispatch(getUserData());
   }
 }
 
@@ -52,18 +54,8 @@ class App extends Component {
             <div className="container">
               <Switch>
                 <Route exact path="/" component={Home} />
-                <AuthRoute
-                  exact
-                  path="/login"
-                  component={Login}
-                  authenticated={authenticated}
-                />
-                <AuthRoute
-                  exact
-                  path="/signup"
-                  component={SignUp}
-                  authenticated={authenticated}
-                />
+                <AuthRoute exact path="/login" component={Login} />
+                <AuthRoute exact path="/signup" component={SignUp} />
                 <Redirect to="/" />
               </Switch>
             </div>
