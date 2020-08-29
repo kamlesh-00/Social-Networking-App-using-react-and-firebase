@@ -10,6 +10,10 @@ import { ThemeProvider as MuiThemeProvider } from "@material-ui/core/styles";
 import createTheme from "@material-ui/core/styles/createMuiTheme";
 import jwtDecode from "jwt-decode";
 
+//Redux
+import { Provider } from "react-redux";
+import store from "./redux/stores";
+
 //Pages
 import Home from "./pages/home";
 import Login from "./pages/login";
@@ -30,17 +34,19 @@ if (token !== null) {
   console.log(decodedToken);
   if (decodedToken.exp * 1000 < Date.now()) {
     authenticated = false;
+    console.log(authenticated);
     window.location.href = "/login";
   } else {
     authenticated = true;
+    console.log(authenticated);
   }
 }
 
 class App extends Component {
   render() {
     return (
-      <MuiThemeProvider theme={theme}>
-        <div>
+      <Provider store={store}>
+        <MuiThemeProvider theme={theme}>
           <Router>
             <Navbar />
             <div className="container">
@@ -50,20 +56,20 @@ class App extends Component {
                   exact
                   path="/login"
                   component={Login}
-                  authenticated
+                  authenticated={authenticated}
                 />
                 <AuthRoute
                   exact
                   path="/signup"
                   component={SignUp}
-                  authenticated
+                  authenticated={authenticated}
                 />
                 <Redirect to="/" />
               </Switch>
             </div>
           </Router>
-        </div>
-      </MuiThemeProvider>
+        </MuiThemeProvider>
+      </Provider>
     );
   }
 }
