@@ -5,7 +5,7 @@ import {
   LOADING_UI,
   SET_AUTHENTICATED,
   SET_UNAUTHENTICATED,
-  LOADING_USER
+  LOADING_USER,
 } from "../types";
 import axios from "axios";
 
@@ -62,16 +62,16 @@ export const signUpUser = (newUserData, history) => (dispatch) => {
 };
 
 export const logoutUser = () => (dispatch) => {
-  localStorage.removeItem('FBIDToken');
-  delete axios.defaults.headers.common['Authorization'];
+  localStorage.removeItem("FBIDToken");
+  delete axios.defaults.headers.common["Authorization"];
   dispatch({
-    type: SET_UNAUTHENTICATED
+    type: SET_UNAUTHENTICATED,
   });
-}
+};
 
 export const getUserData = () => (dispatch) => {
   dispatch({
-    type: LOADING_USER
+    type: LOADING_USER,
   });
   axios
     .get("/user")
@@ -88,17 +88,28 @@ const setAuthorizationHeader = (token) => {
   const FBIDToken = `Bearer ${token}`;
   localStorage.setItem("FBIDToken", FBIDToken);
   axios.defaults.headers.common["Authorization"] = FBIDToken;
-}
+};
 
 export const uploadImage = (formData) => (dispatch) => {
   dispatch({
-    type: LOADING_USER
+    type: LOADING_USER,
   });
-  axios.post('/user/image', formData)
+  axios
+    .post("/user/image", formData)
     .then(() => {
       dispatch(getUserData());
     })
-    .catch(err => {
+    .catch((err) => {
       console.log(err);
     });
-}
+};
+
+export const editUserDetails = (userDetails) => (dispatch) => {
+  dispatch({ type: LOADING_USER });
+  axios
+    .post("/user", userDetails)
+    .then(() => {
+      dispatch(getUserData());
+    })
+    .catch((err) => console.log(err));
+};
