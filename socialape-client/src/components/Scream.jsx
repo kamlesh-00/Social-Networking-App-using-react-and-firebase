@@ -3,6 +3,7 @@ import { withStyles } from "@material-ui/core/styles";
 import { Link } from "react-router-dom";
 import dayjs from "dayjs";
 import PropTypes from "prop-types";
+import DeleteScream from "./DeleteScream";
 
 // MUI Stuff
 import {
@@ -25,6 +26,7 @@ dayjs.extend(relativeTime);
 
 const styles = {
   card: {
+    position: "relative",
     display: "flex",
     marginBottom: 20,
   },
@@ -63,8 +65,16 @@ class Scream extends Component {
     const {
       classes,
       scream,
-      user: { authenticated },
+      user: {
+        authenticated,
+        credentials: { handle },
+      },
     } = this.props;
+
+    const deleteButton =
+      authenticated && handle === scream.userHandle ? (
+        <DeleteScream screamId={scream.screamId} />
+      ) : null;
 
     const likeButton = !authenticated ? (
       <Tooltip title="Like">
@@ -96,6 +106,7 @@ class Scream extends Component {
           className={classes.image}
         />
         <CardContent className={classes.content}>
+          {deleteButton}
           <Typography
             variant="h5"
             component={Link}
