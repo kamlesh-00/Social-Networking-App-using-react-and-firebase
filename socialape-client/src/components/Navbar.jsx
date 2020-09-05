@@ -1,6 +1,7 @@
 import React, { Component, Fragment } from "react";
 import { Link } from "react-router-dom";
 import PropTypes from "prop-types";
+import PostScream from "./PostScream";
 
 // Redux
 import { connect } from "react-redux";
@@ -10,7 +11,6 @@ import { Tooltip, IconButton } from "@material-ui/core";
 
 //MUI Stuff
 import { AppBar, Toolbar, Button } from "@material-ui/core";
-import AddScreamIcon from "@material-ui/icons/Add";
 import HomeIcon from "@material-ui/icons/Home";
 import NotificationsIcon from "@material-ui/icons/Notifications";
 
@@ -22,11 +22,7 @@ class Navbar extends Component {
         <Toolbar className="nav-container">
           {authenticated === true ? (
             <Fragment>
-              <Tooltip title="Create a Scream">
-                <IconButton>
-                  <AddScreamIcon />
-                </IconButton>
-              </Tooltip>
+              <PostScream />
               <Tooltip title="Home">
                 <IconButton>
                   <Link to="/">
