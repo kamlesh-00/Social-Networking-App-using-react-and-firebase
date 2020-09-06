@@ -7,7 +7,7 @@ import { Button, Grid, TextField } from "@material-ui/core";
 
 // Redux Stuff
 import { connect } from "react-redux";
-import { submitComment, clearErrors } from "../../redux/actions/dataActions";
+import { submitComment } from "../../redux/actions/dataActions";
 
 const styles = (theme) => ({
   ...theme.spreadThis,
@@ -70,7 +70,6 @@ class CommentForm extends Component {
 }
 
 CommentForm.propTypes = {
-  clearErrors: PropTypes.func.isRequired,
   submitComment: PropTypes.func.isRequired,
   UI: PropTypes.object.isRequired,
   authenticated: PropTypes.bool.isRequired,
@@ -83,6 +82,6 @@ const mapStateToProps = (state) => ({
   authenticated: state.user.authenticated,
 });
 
-export default connect(mapStateToProps, { submitComment, clearErrors })(
+export default connect(mapStateToProps, { submitComment })(
   withStyles(styles)(CommentForm)
 );
