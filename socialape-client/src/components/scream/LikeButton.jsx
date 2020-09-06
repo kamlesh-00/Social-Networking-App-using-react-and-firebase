@@ -7,7 +7,7 @@ import FavoriteBorder from "@material-ui/icons/FavoriteBorder";
 import { Tooltip, IconButton } from "@material-ui/core";
 // Redux
 import { connect } from "react-redux";
-import { likeScream, unlikeScream } from "../redux/actions/dataActions";
+import { likeScream, unlikeScream } from "../../redux/actions/dataActions";
 
 export class LikeButton extends Component {
   likedScream = () => {

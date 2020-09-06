@@ -3,6 +3,7 @@ import PropTypes from "prop-types";
 import dayjs from "dayjs";
 import { Link } from "react-router-dom";
 import LikeButton from "./LikeButton";
+import Comments from "./Comments";
 
 // MUI Stuff
 import { withStyles } from "@material-ui/core/styles";
@@ -23,13 +24,10 @@ import ChatIcon from "@material-ui/icons/Chat";
 //Redux Stuff
 import { connect } from "react-redux";
 
-import { getScream } from "../redux/actions/dataActions";
+import { getScream } from "../../redux/actions/dataActions";
 
 const styles = (theme) => ({
   ...theme.spreadThis,
-  invisibleSeperator: {
-    visibility: "hidden",
-  },
   profileImage: {
     maxWidth: 200,
     height: 200,
@@ -81,6 +79,7 @@ class ScreamDialog extends Component {
         commentCount,
         userHandle,
         userImage,
+        comments,
       },
       UI: { loading },
     } = this.props;
@@ -116,6 +115,8 @@ class ScreamDialog extends Component {
           </Tooltip>
           <span>{commentCount} comments</span>
         </Grid>
+        <hr className={classes.visibleSeperator} />
+        <Comments comments={comments} />
       </Grid>
     );
     return (

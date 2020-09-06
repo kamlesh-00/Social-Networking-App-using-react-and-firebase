@@ -22,7 +22,7 @@ import Home from "./pages/home";
 import Login from "./pages/login";
 import SignUp from "./pages/signup";
 //Components
-import Navbar from "./components/Navbar";
+import Navbar from "./components/layout/Navbar";
 
 //Util
 import themeFile from "./util/theme";

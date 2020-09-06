@@ -7,7 +7,7 @@ import EditDetails from "./EditDetails";
 
 //Redux
 import { connect } from "react-redux";
-import { logoutUser, uploadImage } from "../redux/actions/userActions";
+import { logoutUser, uploadImage } from "../../redux/actions/userActions";
 
 //MUI Stuff
 import {

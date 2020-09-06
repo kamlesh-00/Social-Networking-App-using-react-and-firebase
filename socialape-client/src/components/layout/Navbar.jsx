@@ -1,7 +1,7 @@
 import React, { Component, Fragment } from "react";
 import { Link } from "react-router-dom";
 import PropTypes from "prop-types";
-import PostScream from "./PostScream";
+import PostScream from "../scream/PostScream";
 
 // Redux
 import { connect } from "react-redux";
