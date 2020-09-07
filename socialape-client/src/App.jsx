@@ -4,6 +4,7 @@ import {
   Route,
   Switch,
   Redirect,
+  withRouter,
 } from "react-router-dom";
 import "./App.css";
 import { ThemeProvider as MuiThemeProvider } from "@material-ui/core/styles";
@@ -60,7 +61,7 @@ class App extends Component {
                 <Route
                   exact
                   path="/users/:handle/scream/:screamId"
-                  component={User}
+                  component={withRouter(User)}
                 />
                 <Redirect to="/" />
               </Switch>
