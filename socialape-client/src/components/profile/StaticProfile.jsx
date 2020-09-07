@@ -1,16 +1,14 @@
-import React, { Component, Fragment } from "react";
+import React, { Fragment } from "react";
 import PropTypes from "prop-types";
 import { withStyles } from "@material-ui/core/styles";
 import dayjs from "dayjs";
 import { Link } from "react-router-dom";
 
 import MuiLink from "@material-ui/core/Link";
-import { Paper, Typography, Tooltip, IconButton } from "@material-ui/core";
+import { Paper, Typography } from "@material-ui/core";
 import LocationOnIcon from "@material-ui/icons/LocationOn";
 import LinkIcon from "@material-ui/icons/Link";
 import CalendarTodayIcon from "@material-ui/icons/CalendarToday";
-
-import { connect } from "react-redux";
 
 const styles = (theme) => ({
   paper: {
@@ -75,7 +73,7 @@ const StaticProfile = (props) => {
           {website && (
             <Fragment>
               <LinkIcon color="primary" />{" "}
-              <a href={website} target="_blank">
+              <a href={website} target="_blank" rel="noopener noreferrer">
                 {" "}
                 {website}
                 {<hr />}

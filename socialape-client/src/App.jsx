@@ -34,7 +34,6 @@ const theme = createTheme(themeFile);
 const token = localStorage.getItem("FBIDToken");
 if (token !== null) {
   const decodedToken = jwtDecode(token);
-  console.log(decodedToken);
   if (decodedToken.exp * 1000 < Date.now()) {
     store.dispatch(logoutUser());
     window.location.href = "/login";

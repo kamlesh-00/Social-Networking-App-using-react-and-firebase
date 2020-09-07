@@ -60,7 +60,6 @@ export default function (state = initialState, actions) {
         ...state,
       };
     case POST_SCREAM:
-      console.log(actions.payload);
       return {
         ...state,
         screams: [actions.payload, ...state.screams],
