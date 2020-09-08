@@ -3,12 +3,14 @@ import PropTypes from "prop-types";
 import axios from "axios";
 import Scream from "../components/scream/Scream";
 import StaticProfile from "../components/profile/StaticProfile";
+import ScreamSkeleton from "../util/ScreamSkeleton";
 
 import { Grid } from "@material-ui/core";
 import { withStyles } from "@material-ui/core/styles";
 
 import { connect } from "react-redux";
 import { getUserData } from "../redux/actions/dataActions";
+import ProfileSkeleton from "../util/ProfileSkeleton";
 
 const styles = (theme) => ({
   ...theme.spreadThis,
@@ -41,19 +43,22 @@ class User extends Component {
 
   render() {
     const { screams, loading } = this.props.data;
-    const { screamIdParam } = this.state;
+    var { screamIdParam } = this.state;
     const screamsMarkup = loading ? (
-      <p>Loading....</p>
+      <ScreamSkeleton />
     ) : screams.length === 0 ? (
       <p>No screams found from this user</p>
     ) : screamIdParam ? (
       screams.map((scream) => {
         if (scream.screamId !== screamIdParam)
           return <Scream key={scream.screamId} scream={scream} />;
-        else
+        else {
+          this.setState({ screamIdParam: null });
+          screamIdParam = null;
           return (
             <Scream key={scream.screamId} scream={scream} openDialog={true} />
           );
+        }
       })
     ) : (
       screams.map((scream) => <Scream key={scream.screamId} scream={scream} />)
@@ -65,7 +70,7 @@ class User extends Component {
         </Grid>
         <Grid item sm={4} xs={12}>
           {this.state.profile === null ? (
-            <p>Loading....</p>
+            <ProfileSkeleton />
           ) : (
             <StaticProfile profile={this.state.profile} />
           )}
